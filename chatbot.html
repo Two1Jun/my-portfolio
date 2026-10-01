@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21J의 교육용 안전문서 검색</title>
+  <style>
+    :root {
+      --navy: #1F3A5F;
+      --sky: #fff5bf;
+      --text: #203040;
+      --muted: #607286;
+      --line: #d6b52a;
+      --warning: #fff0a6;
+      --warning-text: #3e3200;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--text); background: #fff; font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; line-height: 1.65; }
+    .wrap { width: min(100% - 28px, 900px); margin: 0 auto; }
+    header { padding: 42px 0 34px; color: var(--navy); background: #f2c300; border-bottom: 6px solid var(--navy); }
+    h1 { margin: 0; font-size: clamp(1.7rem, 5vw, 2.7rem); line-height: 1.25; }
+    .subtitle { margin: 10px 0 0; color: var(--navy); }
+    .back-link { display: inline-block; margin-top: 18px; padding: 8px 12px; border: 1px solid var(--navy); border-radius: 8px; color: var(--navy); text-decoration: none; font-size: .9rem; }
+    .back-link:hover, .back-link:focus-visible { color: #fff; background: var(--navy); }
+    main { padding: 28px 0 52px; }
+    .notice { margin-bottom: 20px; padding: 16px; border: 2px solid #d39b22; border-radius: 8px; color: var(--warning-text); background: var(--warning); }
+    .notice-title { display: block; margin-bottom: 5px; color: #5b3f08; font-size: 1.05rem; font-weight: 800; }
+    .notice p { margin: 4px 0 0; }
+    .search-box { padding: 20px; border: 2px solid var(--navy); border-radius: 8px; background: var(--sky); }
+    label { display: block; margin-bottom: 8px; color: var(--navy); font-weight: 700; }
+    .search-row { display: flex; gap: 8px; }
+    input { min-width: 0; flex: 1; padding: 13px 14px; border: 1px solid #9eb4c9; border-radius: 8px; color: var(--text); background: #fff; font: inherit; }
+    button { padding: 12px 20px; border: 0; border-radius: 8px; color: #fff; background: var(--navy); font: inherit; font-weight: 700; cursor: pointer; }
+    button:hover, button:focus-visible { color: #111; background: #f2c300; }
+    .hint { margin: 10px 0 0; color: var(--muted); font-size: .9rem; }
+    .examples { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; align-items: center; color: var(--muted); font-size: .9rem; }
+    .example { padding: 3px 8px; border: 1px solid var(--line); border-radius: 8px; color: var(--navy); background: #fff; font-size: .85rem; cursor: pointer; }
+    .example:hover, .example:focus-visible { background: var(--sky); }
+    .result-area { margin-top: 28px; }
+    .result-title { margin: 0 0 12px; color: var(--navy); font-size: 1.35rem; }
+    .result-message { padding: 18px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); }
+    .rule { margin: 0 0 18px; padding: 18px; border: 1px solid var(--line); border-left: 5px solid var(--navy); border-radius: 8px; }
+    .rule:last-child { margin-bottom: 0; }
+    .rule h3 { margin: 0 0 10px; color: var(--navy); font-size: 1.15rem; }
+    .rule ol { margin: 0; padding-left: 23px; }
+    .rule li { margin: 7px 0; }
+    footer { padding: 20px 0 32px; color: var(--muted); font-size: .88rem; }
+    @media (max-width: 560px) {
+      .search-row { flex-direction: column; }
+      button { width: 100%; }
+      header { padding: 32px 0 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>21J의 교육용 안전문서 검색</h1>
+      <p class="subtitle">문서 조항의 제목 단어로 관련 원문을 찾아보세요.</p>
+      <a class="back-link" href="../index.html">포트폴리오로 돌아가기</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="notice">
+      <strong class="notice-title">중요: 실제 AI 답변이 아닙니다</strong>
+      <p>입력한 단어와 교육용 문서 조항을 비교해 원문을 보여주는 검색 도구입니다.</p>
+    </div>
+    <div class="notice">
+      <strong class="notice-title">중요: 현장 판단에 사용할 수 없습니다</strong>
+      <p>교육용 샘플이므로 작업 지시로 사용할 수 없습니다. 현장에서는 소속 사업장의 안전관리자 지침을 따르십시오.</p>
+    </div>
+
+    <section class="search-box" aria-labelledby="search-label">
+      <label id="search-label" for="question">안전 규정 질문 또는 조항 제목 단어</label>
+      <div class="search-row">
+        <input id="question" type="text" placeholder="예: 전기, 고소작업, 개인보호구" autocomplete="off">
+        <button id="search-button" type="button">검색</button>
+      </div>
+      <div class="examples" aria-label="검색어 예시">
+        <span>검색어 예시:</span>
+        <button class="example" type="button" data-query="개인보호구">개인보호구</button>
+        <button class="example" type="button" data-query="고소작업">고소작업</button>
+        <button class="example" type="button" data-query="밀폐공간">밀폐공간</button>
+        <button class="example" type="button" data-query="용접">용접</button>
+        <button class="example" type="button" data-query="화기작업">화기작업</button>
+        <button class="example" type="button" data-query="크레인">크레인</button>
+        <button class="example" type="button" data-query="중량물">중량물</button>
+        <button class="example" type="button" data-query="전기">전기</button>
+        <button class="example" type="button" data-query="화학물질">화학물질</button>
+        <button class="example" type="button" data-query="출입통제">출입통제</button>
+        <button class="example" type="button" data-query="비상대응">비상대응</button>
+        <button class="example" type="button" data-query="사고보고">사고보고</button>
+      </div>
+    </section>
+
+    <section class="result-area" aria-live="polite" aria-labelledby="result-title">
+      <h2 id="result-title" class="result-title">검색 결과</h2>
+      <div id="results" class="result-message">조항 제목의 단어를 입력하고 검색 버튼을 눌러주세요.</div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    이 문서는 AI 교육 실습용 샘플입니다. 공개된 산업안전보건 기준을 바탕으로 교육 목적에 맞게 요약·재구성한 것으로, 실제 사업장 규정이 아닙니다.
+  </footer>
+
+  <script>
+    const rules = [
+      {
+        title: "제1조 (개인보호구)",
+        keywords: ["개인보호구", "보호구"],
+        items: [
+          "작업장 출입 시 안전모, 안전화, 보안경을 항상 착용한다.",
+          "용접·연삭 작업 시 보안면, 방진마스크, 용접 장갑을 추가로 착용한다.",
+          "보호구가 파손되거나 없는 상태로는 어떤 작업도 시작하지 않는다. \"잠깐만\"도 예외가 아니다.",
+          "보호구가 없으면 작업을 중단하고 현장 안전관리자에게 지급을 요청한다."
+        ]
+      },
+      {
+        title: "제2조 (고소작업)",
+        keywords: ["고소작업"],
+        items: [
+          "높이 2m 이상에서 작업할 때는 작업 시작 전에 안전대를 착용하고, 지정된 걸이 지점에 건다.",
+          "추락 위험이 있는 개구부와 작업 발판 가장자리에는 안전난간을 먼저 설치한다.",
+          "강풍(순간풍속 10m/s 이상), 강우, 강설 시 옥외 고소작업을 중지한다.",
+          "사다리 위에서 용접·연삭 등 양손 작업을 하지 않는다."
+        ]
+      },
+      {
+        title: "제3조 (밀폐공간)",
+        keywords: ["밀폐공간"],
+        items: [
+          "탱크, 이중저, 코퍼댐 등 밀폐공간에 들어가기 전에 산소농도(18~23.5%)와 유해가스 농도를 측정하고 기록한다.",
+          "측정 결과가 기준을 벗어나면 환기 후 재측정하고, 기준에 들어올 때까지 출입하지 않는다.",
+          "출입 전 밀폐공간 작업 허가서를 발급받고, 외부에 감시인 1명 이상을 배치한다.",
+          "작업 중에도 산소농도를 계속 측정하고, 감시인은 출입구를 떠나지 않는다."
+        ]
+      },
+      {
+        title: "제4조 (용접·화기작업)",
+        keywords: ["용접", "화기작업"],
+        items: [
+          "화기작업 전에 화기작업 허가서를 발급받고, 반경 10m 이내의 가연물을 제거하거나 불연 덮개로 덮는다.",
+          "화기작업 중에는 화재감시자를 배치하고, 소화기를 작업 위치 3m 이내에 둔다.",
+          "화재감시자는 작업 종료 후 30분간 현장을 감시한다.",
+          "가스 호스와 용접 케이블의 손상 여부를 작업 전에 점검한다."
+        ]
+      },
+      {
+        title: "제5조 (크레인·중량물)",
+        keywords: ["크레인", "중량물"],
+        items: [
+          "크레인으로 중량물을 인양하는 동안 인양물 아래와 반경 내에 사람이 서거나 지나가지 않는다.",
+          "신호수는 1명만 지정하고, 운전자는 지정된 신호수의 신호에만 따른다.",
+          "와이어로프, 슬링, 샤클은 작업 전 점검하고 손상된 것은 즉시 폐기한다.",
+          "인양물의 무게가 정격 하중을 초과하면 인양하지 않는다."
+        ]
+      },
+      {
+        title: "제6조 (전기)",
+        keywords: ["전기"],
+        items: [
+          "전기 설비 작업 전에 전원을 차단하고 잠금장치(LOTO)와 표지를 부착한다.",
+          "젖은 손이나 젖은 장소에서 전기 기기를 다루지 않는다.",
+          "피복이 벗겨진 전선과 파손된 콘센트는 사용하지 않고 즉시 신고한다.",
+          "이동식 전기 기기는 누전차단기를 거쳐 사용한다."
+        ]
+      },
+      {
+        title: "제7조 (화학물질)",
+        keywords: ["화학물질"],
+        items: [
+          "도료, 희석제, 세척제 등 화학물질을 다루기 전에 물질안전보건자료(MSDS)를 확인한다.",
+          "화학물질을 다룰 때는 내화학 장갑과 보안경을 착용하고 환기를 유지한다.",
+          "화학물질 용기에는 반드시 내용물 표시 라벨을 부착하고, 음료 용기에 옮겨 담지 않는다.",
+          "피부에 닿거나 눈에 들어가면 즉시 흐르는 물로 15분 이상 씻고 보고한다."
+        ]
+      },
+      {
+        title: "제8조 (출입통제)",
+        keywords: ["출입통제"],
+        items: [
+          "지정된 출입구로만 출입하고, 출입증을 항상 패용한다.",
+          "위험구역(도장 중, 방사선 검사 중, 인양 중)에는 출입 표지가 있는 동안 들어가지 않는다.",
+          "외부 방문자는 안전교육 이수 후 인솔자와 함께 이동한다.",
+          "작업장 내에서는 지정된 보행로로 이동하고 뛰지 않는다."
+        ]
+      },
+      {
+        title: "제9조 (비상대응)",
+        keywords: ["비상대응"],
+        items: [
+          "화재, 가스 누출, 추락 등 비상 상황을 발견하면 즉시 큰 소리로 알리고 비상연락번호로 신고한다.",
+          "대피 방송이 나오면 작업을 멈추고 지정된 대피 경로로 집결지에 모인다.",
+          "엘리베이터와 크레인은 대피에 사용하지 않는다.",
+          "소화기, 비상샤워, 구급함의 위치를 작업 시작 전에 확인한다."
+        ]
+      },
+      {
+        title: "제10조 (사고보고)",
+        keywords: ["사고보고"],
+        items: [
+          "부상, 아차사고, 설비 손상은 크기와 관계없이 당일 안전관리자에게 보고한다.",
+          "사고 현장은 조사가 끝날 때까지 보존한다.",
+          "보고 내용에는 일시, 장소, 작업 내용, 부상 부위, 목격자를 포함한다.",
+          "보고자에게 불이익을 주지 않는다."
+        ]
+      }
+    ];
+
+    const question = document.querySelector("#question");
+    const searchButton = document.querySelector("#search-button");
+    const results = document.querySelector("#results");
+
+    function showRules() {
+      const query = question.value.trim().toLowerCase();
+
+      if (!query) {
+        results.textContent = "질문이 모호합니다. 개인보호구, 전기, 고소작업처럼 조항 제목의 단어를 입력해 주세요.";
+        return;
+      }
+
+      const matches = rules.filter(rule => rule.keywords.some(keyword => query.includes(keyword.toLowerCase()) || keyword.toLowerCase().includes(query)));
+
+      if (matches.length === 0) {
+        results.textContent = "관련 조항을 찾지 못했습니다. 문서 조항 제목의 단어로 다시 검색해 주세요.";
+        return;
+      }
+
+      results.textContent = "";
+      matches.forEach(rule => {
+        const article = document.createElement("article");
+        article.className = "rule";
+
+        const heading = document.createElement("h3");
+        heading.textContent = rule.title;
+        article.appendChild(heading);
+
+        const list = document.createElement("ol");
+        rule.items.forEach(item => {
+          const listItem = document.createElement("li");
+          listItem.textContent = item;
+          list.appendChild(listItem);
+        });
+        article.appendChild(list);
+        results.appendChild(article);
+      });
+    }
+
+    searchButton.addEventListener("click", showRules);
+    document.querySelectorAll(".example").forEach(example => {
+      example.addEventListener("click", () => {
+        question.value = example.dataset.query;
+        showRules();
+      });
+    });
+    question.addEventListener("keydown", event => {
+      if (event.key === "Enter") showRules();
+    });
+  </script>
+</body>
+</html>
